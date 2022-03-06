@@ -57,7 +57,7 @@ def inicio_sesion():
     contraseña_usuario_entry.pack()
     Label(pantalla1).pack()
     
-    Button(pantalla1,text="Iniciar sesion").pack
+    Button(pantalla1,text="Iniciar sesion").pack()
     
 def registrar():
     global pantalla2
@@ -73,7 +73,7 @@ def registrar():
     
     nombreusuario_entry=StringVar()
     contraseña_entry=StringVar()
-    recom_entry=StringVar()
+    recom_entry=IntVar()
 
     
     Label(pantalla2, text="Por favor ingrese un usuario y contraseña",bg="navy", fg="white",width="300",height="3",font=("calibri",15)).pack()
@@ -91,23 +91,39 @@ def registrar():
     
     Label(pantalla2, text="Por favor selecione una categorias de su interes",bg="navy", fg="white",width="300",height="3",font=("calibri",15)).pack()
     Label(pantalla2,text="").pack
-    Radiobutton(pantalla2,variable=recom_entry,text="Herramientas",value="h").pack()
-    Radiobutton(pantalla2,variable=recom_entry,text="Pintura",value="p").pack()
-    Radiobutton(pantalla2,variable=recom_entry,text="Construccion",value="c").pack()
-    Radiobutton(pantalla2,variable=recom_entry,text="Todo",value="t").pack()
+    
+    Radiobutton(pantalla2,variable=recom_entry,text="Herramientas",value=1).pack()
+    Radiobutton(pantalla2,variable=recom_entry,text="Pintura",value=2).pack()
+    Radiobutton(pantalla2,variable=recom_entry,text="Construccion",value=3).pack()
+    Radiobutton(pantalla2,variable=recom_entry,text="Todo",value=4).pack()
     
     
     Button(pantalla2,text="Registrar",command=inserta_datos).pack()
 
 def inserta_datos():
-    
-    conexion=sqlite3("rufo_db.db")
-    recomend=""
-    if(recom_entry=="h"):
-        recomend="herramientas"
-        conexion.execute("insert into User(user,password,recommended) values(?,?,?) "),(nombreusuario_entry.get(),contraseña_entry.get(),recomend)
+    print(recom_entry.get())
+    conexion=sqlite3.connect("rufo_db.db")
+    if (recom_entry.get()==1):
+        conexion.execute("INSERT INTO User(user,password,recommended) values(?,?,?)",(nombreusuario_entry.get(),contraseña_entry.get(),"herramientas"))
         conexion.commit()
-        conexion.close
+        conexion.close 
+    elif (recom_entry.get()==2):
+        conexion.execute("INSERT INTO User(user,password,recommended) values(?,?,?)",(nombreusuario_entry.get(),contraseña_entry.get(),"pintura"))
+        conexion.commit()
+        conexion.close 
+    elif (recom_entry.get()==3):
+        conexion.execute("INSERT INTO User(user,password,recommended) values(?,?,?)",(nombreusuario_entry.get(),contraseña_entry.get(),"construccion"))
+        conexion.commit()
+        conexion.close 
+    elif (recom_entry.get()==4):
+        conexion.execute("INSERT INTO User(user,password,recommended) values(?,?,?)",(nombreusuario_entry.get(),contraseña_entry.get(),"todo"))
+        conexion.commit()
+        conexion.close    
+    messagebox.showinfo(message="Registro exitoso",title="Aviso")
         
-      
+def pag_principal():
+    pass
+def bot():
+    pass
+    
 menu_pantalla()
